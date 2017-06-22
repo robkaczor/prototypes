@@ -20,6 +20,10 @@ public class CustomerDto implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String streetAddress;
+	private String city;
+	private String stateProvince;
+	private String postalCode;
 	
 	public Long getId() {
 		return id;
@@ -53,10 +57,43 @@ public class CustomerDto implements Serializable {
 		this.email = email;
 	}
 	
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getStateProvince() {
+		return stateProvince;
+	}
+
+	public void setStateProvince(String stateProvince) {
+		this.stateProvince = stateProvince;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
 	@Override
 	public String toString() {
 		return "CustomerDto [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ "]";
+				+ ", streetAddress=" + streetAddress + ", city=" + city + ", stateProvince=" + stateProvince
+				+ ", postalCode=" + postalCode + "]";
 	}
 
 	/**
@@ -70,6 +107,10 @@ public class CustomerDto implements Serializable {
 		private String firstName;
 		private String lastName;
 		private String email;
+		private String streetAddress;
+		private String city;
+		private String stateProvince;
+		private String postalCode;
 		
 		public Builder id(Long id) {
 			this.id = id;
@@ -91,6 +132,26 @@ public class CustomerDto implements Serializable {
 			return this;
 		}
 		
+		public Builder streetAddress(String streetAddress) {
+			this.streetAddress = streetAddress;
+			return this;
+		}
+		
+		public Builder city(String city) {
+			this.city = city;
+			return this;
+		}
+		
+		public Builder stateProvince(String stateProvince) {
+			this.stateProvince = stateProvince;
+			return this;
+		}
+		
+		public Builder postalCode(String postalCode) {
+			this.postalCode = postalCode;
+			return this;
+		}
+		
 		public CustomerDto build() {
 			return new CustomerDto(this);
 		}
@@ -101,6 +162,10 @@ public class CustomerDto implements Serializable {
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
 		this.email = builder.email;
+		this.streetAddress = builder.streetAddress;
+		this.city = builder.city;
+		this.stateProvince = builder.stateProvince;
+		this.postalCode = builder.postalCode;
 	}
 	
 	public CustomerDto() {}

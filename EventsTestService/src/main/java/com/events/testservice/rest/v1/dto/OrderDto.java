@@ -1,12 +1,11 @@
 package com.events.testservice.rest.v1.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.events.testservice.rest.v1.dto.ProductDto.Builder;
 
 /**
  * Order data transfer object.
@@ -21,7 +20,8 @@ public class OrderDto implements Serializable {
 	
 	private Long id;
 	private CustomerDto customer;
-	
+	private List<OrderLineDto> orderLineList;
+
 	public Long getId() {
 		return id;
 	}
@@ -38,9 +38,23 @@ public class OrderDto implements Serializable {
 		this.customer = customer;
 	}
 	
+	public List<OrderLineDto> getOrderLines() {
+		return orderLineList;
+	}
+
+	public void setOrderLines(List<OrderLineDto> orderLines) {
+		this.orderLineList = orderLines;
+	}
+	
+	@Override
+	public String toString() {
+		return "OrderDto [id=" + id + ", customer=" + customer + ", orderLines=" + orderLineList + "]";
+	}
+
 	public static class Builder {
 		private Long id;
 		private CustomerDto customer;
+		private List<OrderLineDto> orderLineList;
 
 		public Builder id(Long id) {
 			this.id = id;
@@ -49,6 +63,11 @@ public class OrderDto implements Serializable {
 
 		public Builder customer(CustomerDto customer) {
 			this.customer = customer;
+			return this;
+		}
+		
+		public Builder orderLines(List<OrderLineDto> orderLineList) {
+			this.orderLineList = orderLineList;
 			return this;
 		}
 
@@ -60,6 +79,7 @@ public class OrderDto implements Serializable {
 	private OrderDto(Builder builder) {
 		this.id = builder.id;
 		this.customer = builder.customer;
+		this.orderLineList = builder.orderLineList;
 	}
 	
 	private OrderDto() {}

@@ -4,6 +4,8 @@
  */
 package com.events.testservice.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +26,9 @@ public class ProductEntity {
 
     @Column(name = "name")
     private String name;
+    
+    @Column(name = "price")
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -41,7 +46,15 @@ public class ProductEntity {
         this.name = name;
     }
 
-    /**
+    public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	/**
      * 
      * @author mkent
      *
@@ -49,6 +62,7 @@ public class ProductEntity {
     public static class Builder {
         private Long id;
         private String name;
+        private BigDecimal price;
 
         public Builder id(Long id) {
             this.id = id;
@@ -57,6 +71,11 @@ public class ProductEntity {
 
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+        
+        public Builder price(BigDecimal price) {
+            this.price = price;
             return this;
         }
 
@@ -68,6 +87,7 @@ public class ProductEntity {
     private ProductEntity(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
+        this.price = builder.price;
     }
     
 	// Jackson needs a no-arg constructor

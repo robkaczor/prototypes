@@ -1,10 +1,13 @@
 package com.events.testservice.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.events.testservice.entity.OrderEntity;
+import com.events.testservice.entity.OrderLineEntity;
 import com.events.testservice.repository.OrderRepository;
 
 /**
@@ -17,6 +20,9 @@ public class OrderDao {
 
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CustomerDao customerDao;
 	
     /**
      * Finds a order record by id.
@@ -35,6 +41,28 @@ public class OrderDao {
      */
     @Transactional
     public OrderEntity createOrder(OrderEntity entity) {
+    	//persist if new customer - this allows new customers at order placement
+    	if (entity.getCustomer().getId() == null){
+    		entity.setCustomer(customerDao.createCustomer(entity.getCustomer()));
+    	}
         return orderRepository.save(entity);
     }
+    
+    /**
+     * Creates a order record and order lines.
+     * @param entity
+     * @return
+     */
+    @Transactional
+	public OrderEntity createOrder(OrderEntity orderEntity, List<OrderLineEntity> orderLines) {
+    	//persist if new customer - this allows new customers at order placement
+    	if (orderEntity.getCustomer().getId() == null){
+    		orderEntity.setCustomer(customerDao.createCustomer(orderEntity.getCustomer()));
+    	}
+    	orderEntity = orderRepository.save(orderEntity);
+    	
+    	
+    	
+        return orderEntity;
+	}
 }

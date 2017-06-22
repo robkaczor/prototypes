@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.events.testservice.rest.v1.dto.CustomerDto.Builder;
+
 /**
  * The customer entity object.
  * @author Robert Kaczor
@@ -27,6 +29,18 @@ public class CustomerEntity {
     @Column(name = "email")
 	private String email;
 
+    @Column(name = "streetAddress")
+	private String streetAddress;
+    
+    @Column(name = "city")
+	private String city;
+    
+    @Column(name = "stateProvince")
+	private String stateProvince;
+    
+    @Column(name = "postalCode")
+	private String postalCode;
+    
 	public Long getId() {
 		return id;
 	}
@@ -59,6 +73,38 @@ public class CustomerEntity {
 		this.email = email;
 	}
 
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getStateProvince() {
+		return stateProvince;
+	}
+
+	public void setStateProvince(String stateProvince) {
+		this.stateProvince = stateProvince;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
 	/**
 	 * 
 	 * @author Robert Kaczor
@@ -70,6 +116,10 @@ public class CustomerEntity {
 		private String firstName;
 		private String lastName;
 		private String email;
+		private String streetAddress;
+		private String city;
+		private String stateProvince;
+		private String postalCode;
 		
 		public Builder id(Long id) {
 			this.id = id;
@@ -91,6 +141,26 @@ public class CustomerEntity {
 			return this;
 		}
 		
+		public Builder streetAddress(String streetAddress) {
+			this.streetAddress = streetAddress;
+			return this;
+		}
+		
+		public Builder city(String city) {
+			this.city = city;
+			return this;
+		}
+		
+		public Builder stateProvince(String stateProvince) {
+			this.stateProvince = stateProvince;
+			return this;
+		}
+		
+		public Builder postalCode(String postalCode) {
+			this.postalCode = postalCode;
+			return this;
+		}
+		
 		public CustomerEntity build() {
 			return new CustomerEntity(this);
 		}
@@ -101,6 +171,10 @@ public class CustomerEntity {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.email = builder.email;
+		this.streetAddress = builder.streetAddress;
+		this.city = builder.city;
+		this.stateProvince = builder.stateProvince;
+		this.postalCode = builder.postalCode;
     }
 	
 	public CustomerEntity() {}

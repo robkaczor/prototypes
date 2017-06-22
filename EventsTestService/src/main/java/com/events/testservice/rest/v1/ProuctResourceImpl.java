@@ -37,6 +37,7 @@ public class ProuctResourceImpl implements ProductResource {
         ProductDto dto = new ProductDto.Builder()
             .id(entity.getId())
             .name(entity.getName())
+            .price(entity.getPrice())
             .build();
         return Response.status(HttpStatus.OK.value()).entity(dto).build();
     }
@@ -49,6 +50,7 @@ public class ProuctResourceImpl implements ProductResource {
         ProductEntity entity = new ProductEntity.Builder()
             .id(sampleDto.getId())
             .name(sampleDto.getName())
+            .price(sampleDto.getPrice())
             .build();
         entity = productDao.createProduct(entity);
         return Response.status(HttpStatus.OK.value()).entity(entity.getId()).build();

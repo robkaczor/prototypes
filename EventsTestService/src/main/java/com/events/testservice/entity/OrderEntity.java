@@ -1,9 +1,15 @@
 package com.events.testservice.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -18,8 +24,12 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @OneToOne
+    @OneToOne(fetch=FetchType.EAGER)
 	private CustomerEntity customer;
+    
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="id")
+    private List<OrderLineEntity> orderLineList;
 	
 	public Long getId() {
 		return id;
@@ -37,6 +47,14 @@ public class OrderEntity {
 		this.customer = customer;
 	}
 	
+	public List<OrderLineEntity> getOrderLineList() {
+		return orderLineList;
+	}
+
+	public void setOrderLineList(List<OrderLineEntity> orderLineList) {
+		this.orderLineList = orderLineList;
+	}
+
 	/**
 	 * 
 	 * @author Robert Kaczor
@@ -46,6 +64,7 @@ public class OrderEntity {
 		
 		private Long id;
 		private CustomerEntity customer;
+		private List<OrderLineEntity> orderLineList;
 		
 		public Builder id(Long id) {
 			this.id = id;
@@ -57,6 +76,11 @@ public class OrderEntity {
 			return this;
 		}
 		
+		public Builder orderLineList(List<OrderLineEntity> orderLineList) {
+			this.orderLineList = orderLineList;
+			return this;
+		}	
+		
 		public OrderEntity build() {
 			return new OrderEntity(this);
 		}
@@ -65,6 +89,7 @@ public class OrderEntity {
 	public OrderEntity(Builder builder){
 		 this.id = builder.id;
 		 this.customer = builder.customer;
+		 this.orderLineList = builder.orderLineList;
 	}
 	
 	public OrderEntity() {}

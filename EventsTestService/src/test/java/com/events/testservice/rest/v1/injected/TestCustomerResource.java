@@ -18,7 +18,7 @@ import com.events.testservice.rest.v1.dto.CustomerDto;
 
 /**
  * Integration test class for the customer resource endpoints.
- * @author mkent
+ * @author Robert Kaczor
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,16 +26,16 @@ import com.events.testservice.rest.v1.dto.CustomerDto;
 public class TestCustomerResource {
 
     @Autowired
-    private CustomerResource pustomerResource;
+    private CustomerResource customerResource;
 	
     @Test
     @Transactional
     public void testCreateAndFindCustomer() {
         CustomerDto createCustomer = new CustomerDto.Builder().firstName("test_first").lastName("test_last").build();
-        Response createResponse = pustomerResource.createCustomer(createCustomer);
+        Response createResponse = customerResource.createCustomer(createCustomer);
         assertNotNull(createResponse.getEntity());
         
-        Response findResponse = pustomerResource.getCustomer((Long) createResponse.getEntity());
+        Response findResponse = customerResource.getCustomer((Long) createResponse.getEntity());
         assertNotNull(findResponse.getEntity());
         CustomerDto foundCustomer = (CustomerDto) findResponse.getEntity();
         assertEquals("test_first", foundCustomer.getFirstName());

@@ -5,6 +5,7 @@
 package com.events.testservice.rest.v1.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,6 +24,7 @@ public class ProductDto implements Serializable {
 
 	private Long id;
 	private String name;
+	private BigDecimal price;
 
 	public Long getId() {
 		return id;
@@ -40,9 +42,17 @@ public class ProductDto implements Serializable {
 		this.name = name;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
-		return "ProductDto [id=" + id + ", name=" + name + "]";
+		return "ProductDto [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 
 	/**
@@ -53,6 +63,7 @@ public class ProductDto implements Serializable {
 	public static class Builder {
 		private Long id;
 		private String name;
+		private BigDecimal price;
 
 		public Builder id(Long id) {
 			this.id = id;
@@ -61,6 +72,11 @@ public class ProductDto implements Serializable {
 
 		public Builder name(String name) {
 			this.name = name;
+			return this;
+		}
+		
+		public Builder price(BigDecimal price) {
+			this.price = price;
 			return this;
 		}
 
@@ -72,6 +88,7 @@ public class ProductDto implements Serializable {
 	private ProductDto(Builder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
+		this.price = builder.price;
 	}
 
 	// Jackson needs a no-arg constructor

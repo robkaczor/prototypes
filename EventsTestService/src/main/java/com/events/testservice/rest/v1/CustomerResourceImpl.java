@@ -35,6 +35,10 @@ public class CustomerResourceImpl implements CustomerResource {
             .firstName(entity.getFirstName())
             .lastName(entity.getLastName())
             .email(entity.getEmail())
+            .streetAddress(entity.getStreetAddress())
+            .city(entity.getCity())
+            .stateProvince(entity.getStateProvince())
+            .postalCode(entity.getPostalCode())
             .build();
         return Response.status(HttpStatus.OK.value()).entity(dto).build();
 	}
@@ -49,6 +53,10 @@ public class CustomerResourceImpl implements CustomerResource {
             .firstName(sampleDto.getFirstName())
             .lastName(sampleDto.getLastName())
             .email(sampleDto.getEmail())
+            .streetAddress(sampleDto.getStreetAddress())
+            .city(sampleDto.getCity())
+            .stateProvince(sampleDto.getStateProvince())
+            .postalCode(sampleDto.getPostalCode())
             .build();
         entity = customerDao.createCustomer(entity);
         return Response.status(HttpStatus.OK.value()).entity(entity.getId()).build();
