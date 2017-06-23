@@ -84,7 +84,7 @@ public class OrderResourceImpl implements OrderResource {
 		}
 		
         //map and validate order
-        OrderEntity orderEntity = MapOrderDtoToOrderEntiry(orderDto);
+        OrderEntity orderEntity = MapOrderDtoToOrderEntity(orderDto);
         if (orderEntity == null){
         	Response.status(HttpStatus.BAD_REQUEST.value()).build();
         }
@@ -98,7 +98,7 @@ public class OrderResourceImpl implements OrderResource {
 	@Override
 	public Response updateOrder(Long id, OrderDto orderDto) {
 		//map and validate order
-        OrderEntity orderEntity = MapOrderDtoToOrderEntiry(orderDto);
+        OrderEntity orderEntity = MapOrderDtoToOrderEntity(orderDto);
         if (orderEntity == null){
         	Response.status(HttpStatus.BAD_REQUEST.value()).build();
         }
@@ -112,11 +112,12 @@ public class OrderResourceImpl implements OrderResource {
         }
         
         //make sure the order update does not change the customer
-        if (originalOrderEntity.getId() != orderDto.getId()){
+        if (originalOrderEntity.getCustomer().getId() != orderEntity.getCustomer().getId()){
         	Response.status(HttpStatus.UNPROCESSABLE_ENTITY.value()).build();
         }
         
-        //persist order
+        //update order
+        orderEntity.setId(id);
         orderEntity = orderDao.saveOrder(orderEntity);
         
         return Response.status(HttpStatus.OK.value()).entity(orderEntity.getId()).build();
@@ -135,7 +136,7 @@ public class OrderResourceImpl implements OrderResource {
         return Response.status(HttpStatus.OK.value()).entity(id).build();
 	}
 
-	private OrderEntity MapOrderDtoToOrderEntiry(OrderDto orderDto) {
+	private OrderEntity MapOrderDtoToOrderEntity(OrderDto orderDto) {
 		
 		//an order must be complete before processing
         if (orderDto == null || orderDto.getCustomer() == null || 
