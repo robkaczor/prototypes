@@ -24,7 +24,7 @@ import com.events.testservice.rest.v1.dto.ProductDto;
 public interface ProductResource {
 
     /**
-     * Gets a product by it's key.
+     * Gets a product by its key.
      * @param id
      * @return
      */

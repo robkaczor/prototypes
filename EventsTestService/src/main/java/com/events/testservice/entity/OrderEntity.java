@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -27,8 +26,7 @@ public class OrderEntity {
     @OneToOne(fetch=FetchType.EAGER)
 	private CustomerEntity customer;
     
-    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="id")
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
     private List<OrderLineEntity> orderLineList;
 	
 	public Long getId() {

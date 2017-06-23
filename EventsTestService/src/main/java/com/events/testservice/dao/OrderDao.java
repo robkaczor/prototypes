@@ -1,13 +1,10 @@
 package com.events.testservice.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.events.testservice.entity.OrderEntity;
-import com.events.testservice.entity.OrderLineEntity;
 import com.events.testservice.repository.OrderRepository;
 
 /**
@@ -25,9 +22,9 @@ public class OrderDao {
 	private CustomerDao customerDao;
 	
     /**
-     * Finds a order record by id.
+     * Finds an order record by id.
      * @param id
-     * @return
+     * @return OrderEntity
      */
     @Transactional(readOnly = true)
     public OrderEntity findOrderById(Long id) {
@@ -35,12 +32,12 @@ public class OrderDao {
     }
 
     /**
-     * Creates a order record.
+     * Creates an order record.
      * @param entity
-     * @return
+     * @return OrderEntity
      */
     @Transactional
-    public OrderEntity createOrder(OrderEntity entity) {
+    public OrderEntity saveOrder(OrderEntity entity) {
     	//persist if new customer - this allows new customers at order placement
     	if (entity.getCustomer().getId() == null){
     		entity.setCustomer(customerDao.createCustomer(entity.getCustomer()));
@@ -49,20 +46,11 @@ public class OrderDao {
     }
     
     /**
-     * Creates a order record and order lines.
-     * @param entity
-     * @return
+     * Deletes an order record and order lines.
+     * @param id
      */
     @Transactional
-	public OrderEntity createOrder(OrderEntity orderEntity, List<OrderLineEntity> orderLines) {
-    	//persist if new customer - this allows new customers at order placement
-    	if (orderEntity.getCustomer().getId() == null){
-    		orderEntity.setCustomer(customerDao.createCustomer(orderEntity.getCustomer()));
-    	}
-    	orderEntity = orderRepository.save(orderEntity);
-    	
-    	
-    	
-        return orderEntity;
+	public void deleteOrder(Long id) {
+    	orderRepository.delete(id);
 	}
 }

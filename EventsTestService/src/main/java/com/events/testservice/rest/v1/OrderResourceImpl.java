@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.events.testservice.dao.CustomerDao;
 import com.events.testservice.dao.OrderDao;
 import com.events.testservice.entity.CustomerEntity;
 import com.events.testservice.entity.OrderEntity;
@@ -30,9 +29,6 @@ public class OrderResourceImpl implements OrderResource {
 
 	@Autowired
 	private OrderDao orderDao;
-	
-	@Autowired
-	private CustomerDao customerDao;
 	
 	@Override
 	public Response getOrder(Long id) {
@@ -82,19 +78,79 @@ public class OrderResourceImpl implements OrderResource {
 
 	@Override
 	public Response createOrder(OrderDto orderDto) {
+		//using POST to update an order results in a conflict, should use PUT
+		if (orderDto.getId() != null){
+			Response.status(HttpStatus.CONFLICT.value()).build();
+		}
+		
+        //map and validate order
+        OrderEntity orderEntity = MapOrderDtoToOrderEntiry(orderDto);
+        if (orderEntity == null){
+        	Response.status(HttpStatus.BAD_REQUEST.value()).build();
+        }
+        
+        //persist order
+        orderEntity = orderDao.saveOrder(orderEntity);
+        
+        return Response.status(HttpStatus.OK.value()).entity(orderEntity.getId()).build();
+	}
+
+	@Override
+	public Response updateOrder(Long id, OrderDto orderDto) {
+		//map and validate order
+        OrderEntity orderEntity = MapOrderDtoToOrderEntiry(orderDto);
+        if (orderEntity == null){
+        	Response.status(HttpStatus.BAD_REQUEST.value()).build();
+        }
+		
+        //get original order
+        OrderEntity originalOrderEntity = orderDao.findOrderById(id);
+        
+        //if the is not valid, return 404 not found
+        if (originalOrderEntity == null){
+        	Response.status(HttpStatus.NOT_FOUND.value()).build();
+        }
+        
+        //make sure the order update does not change the customer
+        if (originalOrderEntity.getId() != orderDto.getId()){
+        	Response.status(HttpStatus.UNPROCESSABLE_ENTITY.value()).build();
+        }
+        
+        //persist order
+        orderEntity = orderDao.saveOrder(orderEntity);
+        
+        return Response.status(HttpStatus.OK.value()).entity(orderEntity.getId()).build();
+	}
+
+	@Override
+	public Response deleteOrder(Long id) {
+        if (id == null) {
+            return Response.status(HttpStatus.BAD_REQUEST.value()).build();
+        }
+        OrderEntity orderEntity = orderDao.findOrderById(id);
+        if (orderEntity == null) {
+            return Response.status(HttpStatus.NO_CONTENT.value()).build();
+        }
+        orderDao.deleteOrder(id);
+        return Response.status(HttpStatus.OK.value()).entity(id).build();
+	}
+
+	private OrderEntity MapOrderDtoToOrderEntiry(OrderDto orderDto) {
+		
+		//an order must be complete before processing
         if (orderDto == null || orderDto.getCustomer() == null || 
         		orderDto.getOrderLines() == null ||
         		orderDto.getOrderLines().size() == 0) {
-            return Response.status(HttpStatus.BAD_REQUEST.value()).build();
+            return null;
         }
-
-        //order lines
+		
+		//order lines
         List<OrderLineEntity> orderLineList = new ArrayList<OrderLineEntity>();
         for(OrderLineDto orderLineDto : orderDto.getOrderLines()){
         	
         	//check for a valid product
         	if (orderLineDto.getProduct() == null){
-        		return Response.status(HttpStatus.BAD_REQUEST.value()).build();
+        		return null;
         	}
         	
         	//map the dto lines to the entity lines
@@ -125,11 +181,7 @@ public class OrderResourceImpl implements OrderResource {
             		.build())
             .orderLineList(orderLineList)
             .build();
-        
-        //persist order
-        orderEntity = orderDao.createOrder(orderEntity);
-        
-        return Response.status(HttpStatus.OK.value()).entity(orderEntity.getId()).build();
+		return orderEntity;
 	}
-
+	
 }

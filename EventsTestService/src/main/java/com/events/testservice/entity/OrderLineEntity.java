@@ -17,6 +17,7 @@ public class OrderLineEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id", unique = true, nullable = false)
     private Long id;
     
     @Column(name = "quantity")

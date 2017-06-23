@@ -17,6 +17,7 @@ Once your changes are complete, commit your branch and issue a pull request.
 Q:  Does the service need to actually start up.
 A:  It doesn't need to start up since we're interested more in the code but it doesn't hurt either.
 
+
 -Create default constructors in dto's and entities
 -Create
 	CustomerDto
@@ -26,15 +27,14 @@ A:  It doesn't need to start up since we're interested more in the code but it d
 	CustomerResource
 	CustomerResourceImpl
 	
-	*OrderLineDto
-	*OrderLineDao
-	*OrderLineEntity
-	*OderLineRepository
+	OrderLineDto
+	OrderLineDao
+	OrderLineEntity
 	
-	*OrderDto
-	*OrderDao
-	*OrderEntity
-	*OrderRepository
-	*OrderResource
-	*OrderResourceImpl
+	OrderDto
+	OrderDao
+	OrderEntity
+	OrderRepository
+	OrderResource
+	OrderResourceImpl
 	

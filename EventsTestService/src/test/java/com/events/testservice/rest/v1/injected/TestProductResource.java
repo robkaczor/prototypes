@@ -7,6 +7,8 @@ package com.events.testservice.rest.v1.injected;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.math.BigDecimal;
+
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
@@ -35,13 +37,18 @@ public class TestProductResource {
     @Test
     @Transactional
     public void testCreateAndFindProduct() {
-        ProductDto createProduct = new ProductDto.Builder().name("test_it").build();
+        ProductDto createProduct = new ProductDto.Builder()
+        		.name("test_it")
+        		.price(new BigDecimal(19.99))
+        		.build();
         Response createResponse = productResource.createProduct(createProduct);
         assertNotNull(createResponse.getEntity());
         
         Response findResponse = productResource.getProduct((Long) createResponse.getEntity());
         assertNotNull(findResponse.getEntity());
+        
         ProductDto foundProduct = (ProductDto) findResponse.getEntity();
         assertEquals("test_it", foundProduct.getName());
+        assertEquals(new BigDecimal(19.99), foundProduct.getPrice());
     }
 }

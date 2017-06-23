@@ -31,15 +31,30 @@ public class TestCustomerResource {
     @Test
     @Transactional
     public void testCreateAndFindCustomer() {
-        CustomerDto createCustomer = new CustomerDto.Builder().firstName("test_first").lastName("test_last").build();
+    	//create a customer dto
+        CustomerDto createCustomer = new CustomerDto.Builder()
+        		.firstName("test_first")
+        		.lastName("test_last")
+        		.email("test@test.com")
+        		.streetAddress("123 Main St.")
+        		.city("Anywhere")
+        		.stateProvince("CA")
+        		.postalCode("90210")
+        		.build();
         Response createResponse = customerResource.createCustomer(createCustomer);
         assertNotNull(createResponse.getEntity());
         
         Response findResponse = customerResource.getCustomer((Long) createResponse.getEntity());
         assertNotNull(findResponse.getEntity());
+        
         CustomerDto foundCustomer = (CustomerDto) findResponse.getEntity();
         assertEquals("test_first", foundCustomer.getFirstName());
         assertEquals("test_last", foundCustomer.getLastName());
+        assertEquals("test@test.com", foundCustomer.getEmail());
+        assertEquals("123 Main St.", foundCustomer.getStreetAddress());
+        assertEquals("Anywhere", foundCustomer.getCity());
+        assertEquals("CA", foundCustomer.getStateProvince());
+        assertEquals("90210", foundCustomer.getPostalCode());
     }
 	
 }

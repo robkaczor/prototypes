@@ -20,7 +20,7 @@ import com.events.testservice.rest.v1.dto.CustomerDto;
 public interface CustomerResource {
 
     /**
-     * Gets an customer by it's key.
+     * Gets an customer by its key.
      * @param id
      * @return
      */
