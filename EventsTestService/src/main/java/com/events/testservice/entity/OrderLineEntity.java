@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 /**
  * The customer entity line object.
@@ -23,7 +23,7 @@ public class OrderLineEntity {
     @Column(name = "quantity")
     private Integer quantity;
     
-    @OneToOne
+    @ManyToOne
     private ProductEntity product;
 
 	public Long getId() {
@@ -49,7 +49,7 @@ public class OrderLineEntity {
 	public void setProduct(ProductEntity product) {
 		this.product = product;
 	}
-    
+
 	public static class Builder {
 		private Long id;
 		private Integer quantity;
