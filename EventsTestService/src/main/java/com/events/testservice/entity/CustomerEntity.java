@@ -6,8 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.events.testservice.rest.v1.dto.CustomerDto.Builder;
-
 /**
  * The customer entity object.
  * @author Robert Kaczor
